@@ -123,22 +123,6 @@
 ;;; ----------------------------------------------------------------------------
 
 ;;; ----------------------------------------------------------------------------
-;;; gdk_pixbuf_get_formats ()
-;;;
-;;; GSList * gdk_pixbuf_get_formats (void);
-;;;
-;;; Obtains the available information about the image formats supported by
-;;; GdkPixbuf.
-;;;
-;;; Returns :
-;;;     A list of GdkPixbufFormats describing the supported image formats. The
-;;;     list should be freed when it is no longer needed, but the structures
-;;;     themselves are owned by GdkPixbuf and should not be freed.
-;;;
-;;; Since 2.2
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
 ;;; gdk_pixbuf_format_copy ()
 ;;;
 ;;; GdkPixbufFormat * gdk_pixbuf_format_copy (const GdkPixbufFormat *format);
@@ -232,22 +216,6 @@
 ;;; Returns :
 ;;;     a NULL-terminated array of filename extensions which must be freed with
 ;;;     g_strfreev() when it is no longer needed.
-;;;
-;;; Since 2.2
-;;; ----------------------------------------------------------------------------
-
-;;; ----------------------------------------------------------------------------
-;;; gdk_pixbuf_format_is_writable ()
-;;;
-;;; gboolean gdk_pixbuf_format_is_writable (GdkPixbufFormat *format);
-;;;
-;;; Returns whether pixbufs can be saved in the given format.
-;;;
-;;; format :
-;;;     a GdkPixbufFormat
-;;;
-;;; Returns :
-;;;     whether pixbufs can be saved in the given format.
 ;;;
 ;;; Since 2.2
 ;;; ----------------------------------------------------------------------------
@@ -424,8 +392,9 @@
 ;;; ----------------------------------------------------------------------------
 
 (define-g-boxed-cstruct gdk-pixbuf-format "GdkPixbufFormat"
-  (name   :string)
-  (signature (:struct gdk-pixbuf-module-pattern))
+  (name :string)
+  ;; TODO: this is a NULL-terminated array of patterns!
+  (signature :pointer)
   (domain :string)
   (description :string)
   (mime-types g-strv)
@@ -489,8 +458,49 @@
 (export (boxed-related-symbols 'gdk-pixbuf-format))
 
 ;;; ----------------------------------------------------------------------------
+;;; gdk_pixbuf_get_formats ()
 ;;;
-;;;  Contstructors
+;;; GSList * gdk_pixbuf_get_formats (void);
+;;;
+;;; Obtains the available information about the image formats supported by
+;;; GdkPixbuf.
+;;;
+;;; Returns :
+;;;     A list of GdkPixbufFormats describing the supported image formats. The
+;;;     list should be freed when it is no longer needed, but the structures
+;;;     themselves are owned by GdkPixbuf and should not be freed.
+;;;
+;;; Since 2.2
+;;; ----------------------------------------------------------------------------
+
+(defcfun gdk-pixbuf-get-formats (g-slist (g-boxed-foreign gdk-pixbuf-format) :free-from-foreign t))
+
+(export 'gdk-pixbuf-get-formats)
+
+;;; ----------------------------------------------------------------------------
+;;; gdk_pixbuf_format_is_writable ()
+;;;
+;;; gboolean gdk_pixbuf_format_is_writable (GdkPixbufFormat *format);
+;;;
+;;; Returns whether pixbufs can be saved in the given format.
+;;;
+;;; format :
+;;;     a GdkPixbufFormat
+;;;
+;;; Returns :
+;;;     whether pixbufs can be saved in the given format.
+;;;
+;;; Since 2.2
+;;; ----------------------------------------------------------------------------
+
+(defcfun gdk-pixbuf-format-is-writable :boolean
+  (format (g-boxed-foreign gdk-pixbuf-format)))
+
+(export 'gdk-pixbuf-format-is-writable)
+
+;;; ----------------------------------------------------------------------------
+;;;
+;;;  Constructors
 ;;;
 ;;; ----------------------------------------------------------------------------
 
