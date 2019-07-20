@@ -1388,7 +1388,7 @@
   (iter (g-boxed-foreign gtk-tree-iter))
   (path (g-boxed-foreign gtk-tree-path)))
 
-(defun gtk-tree-model-get-iter (tree-model path)
+(defun gtk-tree-model-get-iter (tree-model path &optional (iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-10-15}
   @argument[tree-model]{a @class{gtk-tree-model} object}
@@ -1399,9 +1399,8 @@
   @see-class{gtk-tree-model}
   @see-class{gtk-tree-iter}
   @see-class{gtk-tree-path}"
-  (let ((iter (make-gtk-tree-iter)))
-    (when (%gtk-tree-model-get-iter tree-model iter path)
-      iter)))
+  (when (%gtk-tree-model-get-iter tree-model iter path)
+    iter))
 
 (export 'gtk-tree-model-get-iter)
 
@@ -1416,7 +1415,7 @@
   (iter (g-boxed-foreign gtk-tree-iter))
   (path-string :string))
 
-(defun gtk-tree-model-get-iter-from-string (tree-model path-string)
+(defun gtk-tree-model-get-iter-from-string (tree-model path-string &optional (iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-12-15}
   @argument[tree-model]{a @class{gtk-tree-model} object}
@@ -1432,10 +1431,8 @@
   Otherwise, @code{nil} is returned.
   @see-class{gtk-tree-model}
   @see-class{gtk-tree-iter}"
-  (let ((iter (make-gtk-tree-iter)))
-    (if (%gtk-tree-model-get-iter-from-string tree-model iter path-string)
-        iter
-        nil)))
+  (when (%gtk-tree-model-get-iter-from-string tree-model iter path-string)
+    iter))
 
 (export 'gtk-tree-model-get-iter-from-string)
 
@@ -1448,7 +1445,7 @@
   (model (g-object gtk-tree-model))
   (iter (g-boxed-foreign gtk-tree-iter)))
 
-(defun gtk-tree-model-get-iter-first (tree-model)
+(defun gtk-tree-model-get-iter-first (tree-model &optional (iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-10-15}
   @argument[tree-model]{a @class{gtk-tree-model} object}
@@ -1458,10 +1455,8 @@
   @see-class{gtk-tree-model}
   @see-class{gtk-tree-iter}
   @see-function{gtk-tree-model-get-iter-next}"
-  (let ((iter (make-gtk-tree-iter)))
-    (if (%gtk-tree-model-get-iter-first tree-model iter)
-        iter
-        nil)))
+  (when (%gtk-tree-model-get-iter-first tree-model iter)
+    iter))
 
 (export 'gtk-tree-model-get-iter-first)
 
@@ -1581,7 +1576,7 @@
   (iter (g-boxed-foreign gtk-tree-iter))
   (parent (g-boxed-foreign gtk-tree-iter)))
 
-(defun gtk-tree-model-iter-children (tree-model parent)
+(defun gtk-tree-model-iter-children (tree-model parent &optional (iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-10-15}
   @argument[tree-model]{a @class{gtk-tree-model} object}
@@ -1602,9 +1597,8 @@
   @see-function{gtk-tree-model-iter-parent}
   @see-function{gtk-tree-model-iter-n-children}
   @see-function{gtk-tree-model-iter-nth-child}"
-  (let ((iter (make-gtk-tree-iter)))
-    (when (%gtk-tree-model-iter-children tree-model iter parent)
-      iter)))
+  (when (%gtk-tree-model-iter-children tree-model iter parent)
+    iter))
 
 (export 'gtk-tree-model-iter-children)
 
@@ -1657,7 +1651,7 @@
   (parent (g-boxed-foreign gtk-tree-iter))
   (n :int))
 
-(defun gtk-tree-model-iter-nth-child (tree-model parent n)
+(defun gtk-tree-model-iter-nth-child (tree-model parent n &optional (iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-9-18}
   @argument[tree-model]{a @class{gtk-tree-model} object}
@@ -1675,9 +1669,8 @@
   then the nth root node is set.
   @see-class{gtk-tree-model}
   @see-class{gtk-tree-iter}"
-  (let ((iter (make-gtk-tree-iter)))
-    (when (%gtk-tree-model-iter-nth-child tree-model iter parent n)
-      iter)))
+  (when (%gtk-tree-model-iter-nth-child tree-model iter parent n)
+    iter))
 
 (export 'gtk-tree-model-iter-nth-child)
 
@@ -1690,7 +1683,7 @@
   (iter (g-boxed-foreign gtk-tree-iter))
   (child (g-boxed-foreign gtk-tree-iter)))
 
-(defun gtk-tree-model-iter-parent (tree-model child)
+(defun gtk-tree-model-iter-parent (tree-model child &optional (parent (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-10-15}
   @argument[tree-model]{a @class{gtk-tree-model} object}
@@ -1706,9 +1699,8 @@
   @see-class{gtk-tree-model}
   @see-class{gtk-tree-iter}
   @see-function{gtk-tree-model-iter-children}"
-  (let ((parent (make-gtk-tree-iter)))
-    (when (%gtk-tree-model-iter-parent tree-model parent child)
-      parent)))
+  (when (%gtk-tree-model-iter-parent tree-model parent child)
+    parent))
 
 (export 'gtk-tree-model-iter-parent)
 
@@ -1797,7 +1789,7 @@
 ;;; gtk_tree_model_get ()
 ;;; ----------------------------------------------------------------------------
 
-(defun gtk-tree-model-get (tree-model iter &rest colums)
+(defun gtk-tree-model-get (tree-model iter &rest columns)
  #+cl-cffi-gtk-documentation
  "@version{2013-10-15}
   @argument[tree-model]{a @class{gtk-tree-model} object}
@@ -1812,11 +1804,9 @@
   @code{(gtk-tree-model-get model iter 1 3)}.
   @see-class{gtk-tree-model}
   @see-function{gtk-tree-model-get-value}"
-  (let ((result nil))
-    (dolist (column colums)
-      (setf result
-            (cons (gtk-tree-model-get-value tree-model iter column) result)))
-    (reverse result)))
+  (iterate
+    (for column in columns)
+    (collect (gtk-tree-model-get-value tree-model iter column))))
 
 (export 'gtk-tree-model-get)
 

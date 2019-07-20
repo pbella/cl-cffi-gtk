@@ -506,7 +506,7 @@
   (path (g-boxed-foreign gtk-tree-path))
   (requisition (g-boxed-foreign gtk-requisition)))
 
-(defun gtk-cell-view-get-size-of-row (cell-view path)
+(defun gtk-cell-view-get-size-of-row (cell-view path &optional (requisition (make-gtk-requisition)))
  #+cl-cffi-gtk-documentation
  "@version{2013-6-19}
   @argument[cell-view]{a @class{gtk-cell-view}}
@@ -527,9 +527,8 @@
 
   Since 2.6
   @see-function{gtk-widget-get-preferred-size}"
-  (let ((requisition (make-gtk-requisition)))
-    (%gtk-cell-view-get-size-of-row cell-view path requisition)
-    requisition))
+  (%gtk-cell-view-get-size-of-row cell-view path requisition)
+  requisition)
 
 (export 'gtk-cell-view-get-size-of-row)
 

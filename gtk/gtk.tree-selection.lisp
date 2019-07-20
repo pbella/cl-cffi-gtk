@@ -355,7 +355,7 @@
   (model :pointer)
   (iter (g-boxed-foreign gtk-tree-iter)))
 
-(defun gtk-tree-selection-get-selected (selection)
+(defun gtk-tree-selection-get-selected (selection &optional (iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2014-1-30}
   @argument[selection]{a @class{gtk-tree-selection} object}
@@ -368,9 +368,8 @@
   selection is @code{:multiple}.
   @see-class{gtk-tree-selection}
   @see-class{gtk-tree-iter}"
-  (let ((iter (make-gtk-tree-iter)))
-    (when (%gtk-tree-selection-get-selected selection (null-pointer) iter)
-      iter)))
+  (when (%gtk-tree-selection-get-selected selection (null-pointer) iter)
+    iter))
 
 (export 'gtk-tree-selection-get-selected)
 

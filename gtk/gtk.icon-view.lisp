@@ -1588,7 +1588,7 @@
   (rect (g-boxed-foreign gdk-rectangle)))
 
 #+gtk-3-6
-(defun gtk-icon-view-get-cell-rect (icon-view path cell)
+(defun gtk-icon-view-get-cell-rect (icon-view path cell &optional (rect (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2013-9-27}
   @argument[icon-view]{a @class{gtk-icon-view} widget}
@@ -1604,9 +1604,8 @@
 
   Since 3.6
   @see-class{gtk-icon-view}"
-  (let ((rect (make-gdk-rectangle)))
-    (when (%gtk-icon-view-get-cell-rect icon-view path cell rect)
-      rect)))
+  (when (%gtk-icon-view-get-cell-rect icon-view path cell rect)
+    rect))
 
 #+gtk-3-6
 (export 'gtk-icon-view-get-cell-rect)
@@ -1899,7 +1898,7 @@
   (path (:pointer (g-boxed-foreign gtk-tree-path)))
   (iter (g-boxed-foreign gtk-tree-iter)))
 
-(defun gtk-icon-view-get-tooltip-context (icon-view x y keyboard-tip)
+(defun gtk-icon-view-get-tooltip-context (icon-view x y keyboard-tip &optional (iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-6-20}
   @argument[icon-view]{a @class{gtk-icon-view} widget}
@@ -1935,20 +1934,19 @@
                          (path-ptr :pointer))
     (setf (mem-ref xx :int) x
           (mem-ref yy :int) y)
-    (let ((iter (make-gtk-tree-iter)))
-      (when (%gtk-icon-view-get-tooltip-context icon-view
-                                                xx
-                                                yy
-                                                keyboard-tip
-                                                model-ptr
-                                                path-ptr
-                                                iter)
-        (values (mem-ref xx :int) (mem-ref yy :int)
-                (convert-from-foreign (mem-ref model-ptr :pointer)
-                                      '(g-object gtk-tree-model))
-                (convert-from-foreign (mem-ref path-ptr :pointer)
-                                      '(g-boxed-foreign gtk-tree-path :return))
-                iter)))))
+    (when (%gtk-icon-view-get-tooltip-context icon-view
+                                              xx
+                                              yy
+                                              keyboard-tip
+                                              model-ptr
+                                              path-ptr
+                                              iter)
+      (values (mem-ref xx :int) (mem-ref yy :int)
+              (convert-from-foreign (mem-ref model-ptr :pointer)
+                                    '(g-object gtk-tree-model))
+              (convert-from-foreign (mem-ref path-ptr :pointer)
+                                    '(g-boxed-foreign gtk-tree-path :return))
+              iter))))
 
 (export 'gtk-icon-view-get-tooltip-context)
 

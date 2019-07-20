@@ -1037,7 +1037,7 @@
   (text-view (g-object gtk-text-view))
   (visible-rect (g-boxed-foreign gdk-rectangle)))
 
-(defun gtk-text-view-get-visible-rect (text-view)
+(defun gtk-text-view-get-visible-rect (text-view &optional (rect (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2014-1-23}
   @argument[text-view]{a @class{gtk-text-view} widget}
@@ -1048,9 +1048,8 @@
   @see-class{gtk-text-view}
   @see-class{gdk-rectangle}
   @see-function{gtk-text-view-buffer-to-window-coords}"
-  (let ((rect (make-gdk-rectangle :x 0 :y 0 :width 0 :height 0)))
-    (%gtk-text-view-get-visible-rect text-view rect)
-    rect))
+  (%gtk-text-view-get-visible-rect text-view rect)
+  rect)
 
 (export 'gtk-text-view-get-visible-rect)
 
@@ -1064,7 +1063,7 @@
   (iter (g-boxed-foreign gtk-text-iter))
   (location (g-boxed-foreign gdk-rectangle)))
 
-(defun gtk-text-view-get-iter-location (text-view iter)
+(defun gtk-text-view-get-iter-location (text-view iter &optional (rect (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2013-8-18}
   @argument[text-view]{a @class{gtk-text-view} object}
@@ -1078,9 +1077,8 @@
   coordinates for one of the windows in the text view.
   @see-class{gtk-text-view}
   @see-function{gtk-text-view-buffer-to-window-coords}"
-  (let ((rect (make-gdk-rectangle :x 0 :y 0 :width 0 :height 0)))
-    (%gtk-text-view-get-iter-location text-view iter rect)
-    rect))
+  (%gtk-text-view-get-iter-location text-view iter rect)
+  rect)
 
 (export 'gtk-text-view-get-iter-location)
 

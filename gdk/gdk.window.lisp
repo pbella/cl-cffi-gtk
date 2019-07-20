@@ -4690,7 +4690,7 @@
   (window (g-object gdk-window))
   (rectangle (g-boxed-foreign gdk-rectangle)))
 
-(defun gdk-window-get-frame-extents (window)
+(defun gdk-window-get-frame-extents (window &optional (rectangle (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2013-9-1}
   @argument[window]{a toplevel @class{gdk-window} object}
@@ -4706,9 +4706,8 @@
   the function @fun{gdk-window-get-origin}.
   @see-class{gdk-window}
   @see-function{gdk-window-get-origin}"
-  (let ((rectangle (make-gdk-rectangle)))
-    (%gdk-window-get-frame-extents window rectangle)
-    rectangle))
+  (%gdk-window-get-frame-extents window rectangle)
+  rectangle)
 
 (export 'gdk-window-get-frame-extents)
 

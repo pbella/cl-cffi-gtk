@@ -208,7 +208,7 @@
   (spec :string)
   (color (g-boxed-foreign gdk-color)))
 
-(defun gdk-color-parse (color-spec)
+(defun gdk-color-parse (color-spec &optional (color (make-gdk-color)))
  #+cl-cffi-gtk-documentation
  "@version{2016-1-2}
   @argument[spec]{the string specifying the color}
@@ -232,9 +232,8 @@
   @see-class{gdk-color}
   @see-class{gdk-rgba}
   @see-function{gdk-color-to-string}"
-  (let ((color (make-gdk-color)))
-    (when (%gdk-color-parse color-spec color)
-      color)))
+  (when (%gdk-color-parse color-spec color)
+    color))
 
 (export 'gdk-color-parse)
 

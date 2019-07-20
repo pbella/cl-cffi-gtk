@@ -101,10 +101,9 @@
   (geometry (g-boxed-foreign gdk-rectangle)))
 
 #+gdk-3-22
-(defun gdk-monitor-get-geometry (monitor)
-  (let ((geometry (make-gdk-rectangle)))
-    (%gdk-monitor-get-geometry monitor geometry)
-    geometry))
+(defun gdk-monitor-get-geometry (monitor &optional (geometry (make-gdk-rectangle)))
+  (%gdk-monitor-get-geometry monitor geometry)
+  geometry)
 
 #+gdk-3-22
 (export 'gdk-monitor-get-geometry)
@@ -115,10 +114,9 @@
   (workarea (g-boxed-foreign gdk-rectangle)))
 
 #+gdk-3-22
-(defun gdk-monitor-get-workarea (monitor)
-  (let ((workarea (make-gdk-rectangle)))
-    (%gdk-monitor-get-workarea monitor workarea)
-    workarea))
+(defun gdk-monitor-get-workarea (monitor &optional (workarea (make-gdk-rectangle)))
+  (%gdk-monitor-get-workarea monitor workarea)
+  workarea)
 
 #+gdk-3-22
 (export 'gdk-monitor-get-workarea)

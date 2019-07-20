@@ -2411,7 +2411,9 @@
 ;;; gtk_text_iter_forward_search ()
 ;;; ----------------------------------------------------------------------------
 
-(defun gtk-text-iter-search (iter str &key flags limit (direction :forward))
+(defun gtk-text-iter-search (iter str &key flags limit (direction :forward)
+                              (match-start (make-instance 'gtk-text-iter))
+                              (match-end (make-instance 'gtk-text-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-8-12}
   @argument[iter]{start of search}
@@ -2444,23 +2446,21 @@
   @see-function{gtk-text-iter-forward-search}
   @see-function{gtk-text-iter-backward-search}"
   (assert (typep direction '(member :forward :backward)))
-  (let ((match-start (make-instance 'gtk-text-iter))
-        (match-end (make-instance 'gtk-text-iter)))
-    (if (if (eq direction :forward)
-            (%gtk-text-iter-forward-search iter
-                                           str
-                                           flags
-                                           match-start
-                                           match-end
-                                           limit)
-            (%gtk-text-iter-backward-search iter
-                                            str
-                                            flags
-                                            match-start
-                                            match-end
-                                            limit))
-        (values t match-start match-end)
-        (values nil nil nil))))
+  (if (if (eq direction :forward)
+          (%gtk-text-iter-forward-search iter
+                                         str
+                                         flags
+                                         match-start
+                                         match-end
+                                         limit)
+          (%gtk-text-iter-backward-search iter
+                                          str
+                                          flags
+                                          match-start
+                                          match-end
+                                          limit))
+      (values t match-start match-end)
+      (values nil nil nil)))
 
 (export 'gtk-text-iter-search)
 

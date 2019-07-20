@@ -733,7 +733,7 @@
   (range (g-object gtk-range))
   (range-rect (g-boxed-foreign gdk-rectangle)))
 
-(defun gtk-range-get-range-rect (range)
+(defun gtk-range-get-range-rect (range &optional (range-rect (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2013-5-26}
   @argument[range]{a @class{gtk-range} widget}
@@ -749,9 +749,8 @@
 
   Since 2.20
   @see-class{gtk-range}"
-  (let ((range-rect (make-gdk-rectangle)))
-    (%gtk-range-get-range-rect range range-rect)
-    range-rect))
+  (%gtk-range-get-range-rect range range-rect)
+  range-rect)
 
 (export 'gtk-range-get-range-rect)
 

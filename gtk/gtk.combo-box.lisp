@@ -1041,7 +1041,7 @@
   (combo-box g-object)
   (iter (g-boxed-foreign gtk-tree-iter)))
 
-(defun gtk-combo-box-get-active-iter (combo-box)
+(defun gtk-combo-box-get-active-iter (combo-box &optional (iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-8-3}
   @argument[combo-box]{a @class{gtk-combo-box} widget}
@@ -1053,9 +1053,8 @@
   Since 2.4
   @see-class{gtk-combo-box}
   @see-function{gtk-combo-box-set-active-iter}"
-  (let ((iter (make-gtk-tree-iter)))
-    (when (%gtk-combo-box-get-active-iter combo-box iter)
-      iter)))
+  (when (%gtk-combo-box-get-active-iter combo-box iter)
+    iter))
 
 (export 'gtk-combo-box-get-active-iter)
 

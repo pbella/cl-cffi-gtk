@@ -2150,7 +2150,7 @@
   (column g-object)
   (rectangle (g-boxed-foreign gdk-rectangle)))
 
-(defun gtk-tree-view-get-cell-area (tree-view path column)
+(defun gtk-tree-view-get-cell-area (tree-view path column &optional (rect (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2013-5-31}
   @argument[tree-view]{a @class{gtk-tree-view} widget}
@@ -2168,9 +2168,8 @@
   for example. The returned rectangle is equivalent to the @arg{cell-area}
   passed to the @fun{gtk-cell-renderer-render} function. This function is only
   valid if @arg{tree-view} is realized."
-  (let ((rect (make-gdk-rectangle :x 0 :y 0 :width 0 :height 0)))
-    (%gtk-tree-view-get-cell-area tree-view path column rect)
-    rect))
+  (%gtk-tree-view-get-cell-area tree-view path column rect)
+  rect)
 
 (export 'gtk-tree-view-get-cell-area)
 
@@ -2185,7 +2184,7 @@
   (column g-object)
   (rectangle (g-boxed-foreign gdk-rectangle)))
 
-(defun gtk-tree-view-get-background-area (tree-view path column)
+(defun gtk-tree-view-get-background-area (tree-view path column &optional (rect (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2013-5-31}
   @argument[tree-view]{a @class{gtk-tree-view} widget}
@@ -2206,9 +2205,8 @@
   the entire bin window. Contrast with the @code{cell-area}, returned by the
   @fun{gtk-tree-view-get-cell-area} function, which returns only the cell
   itself, excluding surrounding borders and the tree expander area."
-  (let ((rect (make-gdk-rectangle :x 0 :y 0 :width 0 :height 0)))
-    (%gtk-tree-view-get-background-area tree-view path column rect)
-    rect))
+  (%gtk-tree-view-get-background-area tree-view path column rect)
+  rect)
 
 (export 'gtk-tree-view-get-background-area)
 
@@ -2221,7 +2219,7 @@
   (tree-view g-object)
   (rectangle (g-boxed-foreign gdk-rectangle)))
 
-(defun gtk-tree-view-get-visible-rect (tree-view)
+(defun gtk-tree-view-get-visible-rect (tree-view &optional (rect (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2013-5-31}
   @argument[tree-view]{a @class{gtk-tree-view} widget}
@@ -2231,9 +2229,8 @@
   @fun{gtk-tree-view-convert-tree-to-bin-window-coords} function. Tree
   coordinates start at 0,0 for row 0 of the tree, and cover the entire
   scrollable area of the tree."
-  (let ((rect (make-gdk-rectangle :x 0 :y 0 :width 0 :height 0)))
-    (%gtk-tree-view-get-visible-rect tree-view rect)
-    rect))
+  (%gtk-tree-view-get-visible-rect tree-view rect)
+  rect)
 
 (export 'gtk-tree-view-get-visible-rect)
 
@@ -3404,7 +3401,7 @@
   (path (:pointer :pointer))
   (iter (g-boxed-foreign gtk-tree-iter)))
 
-(defun gtk-tree-view-get-tooltip-context (tree-view x y keyboard-tip)
+(defun gtk-tree-view-get-tooltip-context (tree-view x y keyboard-tip &optional (iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-5-31}
   @argument[tree-view]{a @class{gtk-tree-view} widget}
@@ -3441,9 +3438,8 @@
                          (path :pointer))
     (setf (mem-ref px :int) x
           (mem-ref py :int) y)
-    (let* ((iter (make-gtk-tree-iter))
-           (points-to-row (%gtk-tree-view-get-tooltip-context
-                           tree-view px py keyboard-tip model path iter)))
+    (let ((points-to-row (%gtk-tree-view-get-tooltip-context
+                          tree-view px py keyboard-tip model path iter)))
       (values points-to-row
               (mem-ref px :int)
               (mem-ref py :int)

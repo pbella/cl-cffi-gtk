@@ -608,7 +608,7 @@
   (monitor-num :int)
   (dest (g-boxed-foreign gdk-rectangle)))
 
-(defun gdk-screen-get-monitor-geometry (screen monitor-num)
+(defun gdk-screen-get-monitor-geometry (screen monitor-num &optional (dest (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2013-6-17}
   @argument[screen]{a @class{gdk-screen} object}
@@ -630,9 +630,8 @@
   @see-function{gdk-screen-get-n-monitors}
   @see-function{gdk-screen-get-width}
   @see-function{gdk-screen-get-height}"
-  (let ((dest (make-gdk-rectangle)))
-    (%gdk-screen-get-monitor-geometry screen monitor-num dest)
-    dest))
+  (%gdk-screen-get-monitor-geometry screen monitor-num dest)
+  dest)
 
 (export 'gdk-screen-get-monitor-geometry)
 
@@ -647,7 +646,7 @@
   (monitor-num :int)
   (dest (g-boxed-foreign gdk-rectangle)))
 
-(defun gdk-screen-get-monitor-workarea (screen monitor-num)
+(defun gdk-screen-get-monitor-workarea (screen monitor-num &optional (dest (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2013-6-17}
   @argument[screen]{a @class{gdk-screen} object}
@@ -668,9 +667,8 @@
   Since 3.4
   @see-class{gdk-screen}
   @see-function{gdk-screen-get-n-monitors}"
-  (let ((dest (make-gdk-rectangle)))
-    (%gdk-screen-get-monitor-workarea screen monitor-num dest)
-    dest))
+  (%gdk-screen-get-monitor-workarea screen monitor-num dest)
+  dest)
 
 (export 'gdk-screen-get-monitor-workarea)
 

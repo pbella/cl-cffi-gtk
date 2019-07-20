@@ -486,7 +486,7 @@
   (tree-iter (g-boxed-foreign gtk-tree-iter))
   (position :int))
 
-(defun gtk-list-store-insert (list-store position)
+(defun gtk-list-store-insert (list-store position &optional (iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-8-22}
   @argument[list-store]{a @class{gtk-list-store} object}
@@ -504,9 +504,8 @@
   @see-class{gtk-tree-iter}
   @see-function{gtk-list-store-set}
   @see-function{gtk-list-store-set-value}"
-  (let ((iter (make-gtk-tree-iter)))
-    (%gtk-list-store-insert list-store iter position)
-    iter))
+  (%gtk-list-store-insert list-store iter position)
+  iter)
 
 (export 'gtk-list-store-insert)
 
@@ -519,7 +518,7 @@
   (tree-iter (g-boxed-foreign gtk-tree-iter))
   (sibling (g-boxed-foreign gtk-tree-iter)))
 
-(defun gtk-list-store-insert-before (list-store sibling)
+(defun gtk-list-store-insert-before (list-store sibling &optional (iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-8-22}
   @argument[list-store]{a @class{gtk-list-store} object}
@@ -536,9 +535,8 @@
   @see-class{gtk-tree-iter}
   @see-function{gtk-list-store-set}
   @see-function{gtk-list-store-set-value}"
-  (let ((iter (make-gtk-tree-iter)))
-    (%gtk-list-store-insert-before list-store iter sibling)
-    iter))
+  (%gtk-list-store-insert-before list-store iter sibling)
+  iter)
 
 (export 'gtk-list-store-insert-before)
 
@@ -551,7 +549,7 @@
   (tree-iter (g-boxed-foreign gtk-tree-iter))
   (sibling (g-boxed-foreign gtk-tree-iter)))
 
-(defun gtk-list-store-insert-after (list-store sibling)
+(defun gtk-list-store-insert-after (list-store sibling &optional (iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-8-22}
   @argument[list-store]{a @class{gtk-list-store} object}
@@ -568,9 +566,8 @@
   @see-class{gtk-tree-iter}
   @see-function{gtk-list-store-set}
   @see-function{gtk-list-store-set-value}"
-  (let ((iter (make-gtk-tree-iter)))
-    (%gtk-list-store-insert-after list-store iter sibling)
-    iter))
+  (%gtk-list-store-insert-after list-store iter sibling)
+  iter)
 
 (export 'gtk-list-store-insert-after)
 
@@ -690,7 +687,7 @@
   (list-store (g-object gtk-list-store))
   (iter (g-boxed-foreign gtk-tree-iter)))
 
-(defun gtk-list-store-prepend (list-store)
+(defun gtk-list-store-prepend (list-store &optional (iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-8-22}
   @argument[list-store]{a @class{gtk-list-store} object}
@@ -705,9 +702,8 @@
   @see-class{gtk-tree-iter}
   @see-function{gtk-list-store-set}
   @see-function{gtk-list-store-set-value}"
-  (let ((iter (make-gtk-tree-iter)))
-    (%gtk-list-store-prepend list-store iter)
-    iter))
+  (%gtk-list-store-prepend list-store iter)
+  iter)
 
 (export 'gtk-list-store-prepend)
 
@@ -719,7 +715,7 @@
   (list-store (g-object gtk-list-store))
   (iter (g-boxed-foreign gtk-tree-iter)))
 
-(defun gtk-list-store-append (list-store)
+(defun gtk-list-store-append (list-store &optional (iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2014-1-22}
   @argument[list-store]{a @class{gtk-list-store} object}
@@ -734,9 +730,8 @@
   @see-class{gtk-tree-iter}
   @see-function{gtk-list-store-set}
   @see-function{gtk-list-store-set-value}"
-  (let ((iter (make-gtk-tree-iter)))
-    (%gtk-list-store-append list-store iter)
-    iter))
+  (%gtk-list-store-append list-store iter)
+  iter)
 
 (export 'gtk-list-store-append)
 

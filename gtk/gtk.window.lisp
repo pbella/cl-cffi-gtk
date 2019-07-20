@@ -3239,7 +3239,7 @@
   (window (g-object gtk-window))
   (rect (g-boxed-foreign gdk-rectangle)))
 
-(defun gtk-window-get-resize-grip-area (window)
+(defun gtk-window-get-resize-grip-area (window &optional (rect (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2013-7-30}
   @argument[window]{a @class{gtk-window} widget}
@@ -3254,9 +3254,8 @@
   Since 3.0
   @see-class{gtk-window}
   @see-function{gtk-window-has-resize-grip}"
-  (let ((rect (make-gdk-rectangle)))
-    (when (%gtk-window-get-resize-grip-area window rect)
-      rect)))
+  (when (%gtk-window-get-resize-grip-area window rect)
+    rect))
 
 (export 'gtk-window-get-resize-grip-area)
 

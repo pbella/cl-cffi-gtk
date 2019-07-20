@@ -427,7 +427,7 @@
   (filter-iter (g-boxed-foreign gtk-tree-iter))
   (child-iter (g-boxed-foreign gtk-tree-iter)))
 
-(defun gtk-tree-model-filter-convert-child-iter-to-iter (filter child-iter)
+(defun gtk-tree-model-filter-convert-child-iter-to-iter (filter child-iter &optional (filter-iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-6-21}
   @argument[filter]{a @class{gtk-tree-model-filter} object}
@@ -444,11 +444,10 @@
   @end{short}
 
   Since 2.4"
-  (let ((filter-iter (make-gtk-tree-iter)))
-    (when (%gtk-tree-model-filter-convert-child-iter-to-iter filter
-                                                             filter-iter
-                                                             child-iter)
-      filter-iter)))
+  (when (%gtk-tree-model-filter-convert-child-iter-to-iter filter
+                                                           filter-iter
+                                                           child-iter)
+    filter-iter))
 
 (export 'gtk-tree-model-filter-convert-child-iter-to-iter)
 
@@ -462,7 +461,7 @@
   (child-iter (g-boxed-foreign gtk-tree-iter))
   (filter-iter (g-boxed-foreign gtk-tree-iter)))
 
-(defun gtk-tree-model-filter-convert-iter-to-child-iter (filter filter-iter)
+(defun gtk-tree-model-filter-convert-iter-to-child-iter (filter filter-iter &optional (child-iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-6-21}
   @argument[filter]{a @class{gtk-tree-model-filter} object}
@@ -477,11 +476,10 @@
   @end{short}
 
   Since 2.4"
-  (let ((child-iter (make-gtk-tree-iter)))
-    (%gtk-tree-model-filter-convert-iter-to-child-iter filter
-                                                       child-iter
-                                                       filter-iter)
-    child-iter))
+  (%gtk-tree-model-filter-convert-iter-to-child-iter filter
+                                                     child-iter
+                                                     filter-iter)
+  child-iter)
 
 (export 'gtk-tree-model-filter-convert-iter-to-child-iter)
 

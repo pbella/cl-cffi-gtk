@@ -256,7 +256,8 @@
   (child-iter (g-boxed-foreign gtk-tree-iter)))
 
 (defun gtk-tree-model-sort-convert-child-iter-to-iter (tree-model-sort
-                                                       child-iter)
+                                                       child-iter
+                                                       &optional (sort-iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-6-21}
   @argument[tree-model-sort]{a @class{gtk-tree-model-sort} object}
@@ -272,11 +273,10 @@
     was not set, @code{nil} is returned.
   @end{short}
   Note: A boolean is only returned since 2.14."
-  (let ((sort-iter (make-gtk-tree-iter)))
-    (when (%gtk-tree-model-sort-convert-child-iter-to-iter tree-model-sort
-                                                           sort-iter
-                                                           child-iter)
-      sort-iter)))
+  (when (%gtk-tree-model-sort-convert-child-iter-to-iter tree-model-sort
+                                                         sort-iter
+                                                         child-iter)
+    sort-iter))
 
 (export 'gtk-tree-model-sort-convert-child-iter-to-iter)
 
@@ -316,7 +316,8 @@
   (sorted-iter (g-boxed-foreign gtk-tree-iter)))
 
 (defun gtk-tree-model-sort-convert-iter-to-child-iter (tree-model-sort
-                                                       sorted-iter)
+                                                       sorted-iter
+                                                       &optional (child-iter (make-gtk-tree-iter)))
  #+cl-cffi-gtk-documentation
  "@version{2013-6-21}
   @argument[tree-model-sort]{a @class{gtk-tree-model-sort} object}
@@ -326,11 +327,10 @@
     @code{child-iter} -- a @class{gtk-tree-iter} structure
   @end{return}
   Sets @arg{child-iter} to point to the row pointed to by @arg{sorted-iter}."
-  (let ((child-iter (make-gtk-tree-iter)))
-    (%gtk-tree-model-sort-convert-iter-to-child-iter tree-model-sort
-                                                     child-iter
-                                                     sorted-iter)
-    child-iter))
+  (%gtk-tree-model-sort-convert-iter-to-child-iter tree-model-sort
+                                                   child-iter
+                                                   sorted-iter)
+  child-iter)
 
 (export 'gtk-tree-model-sort-convert-iter-to-child-iter)
 

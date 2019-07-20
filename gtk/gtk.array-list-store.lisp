@@ -32,10 +32,9 @@
 
 (export 'store-item)
 
-(defun store-add-item (store item)
+(defun store-add-item (store item &optional (iter (make-gtk-tree-iter)))
   (vector-push-extend item (store-items store))
-  (let* ((path (apply #'gtk-tree-path-new-from-indices (list (1- (length (store-items store))))))
-         (iter (make-gtk-tree-iter)))
+  (let ((path (apply #'gtk-tree-path-new-from-indices (list (1- (length (store-items store)))))))
     (setf (gtk-tree-iter-stamp iter)
           0
           (gtk-tree-iter-user-data iter)
@@ -372,25 +371,23 @@
 
 ;;; ----------------------------------------------------------------------------
 
-(defun notice-tree-node-insertion (tree node child index)
+(defun notice-tree-node-insertion (tree node child index &optional (iter (make-gtk-tree-iter)))
   (declare (ignore node index))
   (when tree
-    (let* ((path (apply #'gtk-tree-path-new-from-indices (get-node-path child)))
-           (iter (make-gtk-tree-iter)))
+    (let ((path (apply #'gtk-tree-path-new-from-indices (get-node-path child))))
       (setf (gtk-tree-iter-stamp iter) 0
             (gtk-tree-iter-user-data iter) (get-assigned-id tree child))
       (g-signal-emit tree "row-inserted" path iter)
       (when (plusp (length (tree-node-children child)))
         (g-signal-emit tree "row-has-child-toggled" path iter)))))
 
-(defun notice-tree-node-removal (tree node child index)
+(defun notice-tree-node-removal (tree node child index &optional (iter (make-gtk-tree-iter)))
   (declare (ignore child))
   (when tree
     (let ((path (apply #'gtk-tree-path-new-from-indices (nconc (get-node-path node) (list index)))))
       (g-signal-emit tree "row-deleted" path))
     (when (zerop (length (tree-node-children node)))
-      (let* ((path (apply #'gtk-tree-path-new-from-indices (get-node-path node)))
-             (iter (make-gtk-tree-iter)))
+      (let ((path (apply #'gtk-tree-path-new-from-indices (get-node-path node))))
         (setf (gtk-tree-iter-stamp iter)
               0
               (gtk-tree-iter-user-data iter)

@@ -224,7 +224,7 @@
   (src-2 (g-boxed-foreign gdk-rectangle))
   (dest  (g-boxed-foreign gdk-rectangle)))
 
-(defun gdk-rectangle-intersect (src-1 src-2)
+(defun gdk-rectangle-intersect (src-1 src-2 &optional (dest (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2013-7-3}
   @argument[src1]{a @class{gdk-rectangle} structure}
@@ -235,9 +235,9 @@
   @end{short}
   If the rectangles do not intersect, the intersection @arg{width} and
   @arg{height} is set to 0 and its @arg{x} and @arg{y} values are undefined."
-  (let ((dest (make-gdk-rectangle)))
-    (when (%gdk-rectangle-intersect src-1 src-2 dest)
-      dest)))
+  (if (%gdk-rectangle-intersect src-1 src-2 dest)
+      (values dest T)
+      (values NIL NIL)))
 
 (export 'gdk-rectangle-intersect)
 
@@ -250,7 +250,7 @@
   (src-2 (g-boxed-foreign gdk-rectangle))
   (dest  (g-boxed-foreign gdk-rectangle)))
 
-(defun gdk-rectangle-union (src-1 src-2)
+(defun gdk-rectangle-union (src-1 src-2 &optional (dest (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2013-7-3}
   @argument[src1]{a @class{gdk-rectangle} structure}
@@ -261,9 +261,8 @@
   @end{short}
   The union of rectangles @arg{src1} and @arg{src2} is the smallest rectangle
   which includes both @arg{src1} and @arg{src2} within it."
-  (let ((dest (make-gdk-rectangle)))
-    (%gdk-rectangle-union src-1 src-2 dest)
-    dest))
+  (%gdk-rectangle-union src-1 src-2 dest)
+  dest)
 
 (export 'gdk-rectangle-union)
 

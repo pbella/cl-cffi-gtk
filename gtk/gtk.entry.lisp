@@ -1994,7 +1994,7 @@
   (entry (g-object gtk-entry))
   (text-area (g-boxed-foreign gdk-rectangle)))
 
-(defun gtk-entry-get-text-area (entry)
+(defun gtk-entry-get-text-area (entry &optional (text-area (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2014-6-8}
   @argument[entry]{a @class{gtk-entry} widget}
@@ -2011,9 +2011,8 @@
   Since 3.0
   @see-class{gtk-entry}
   @see-function{gtk-entry-get-icon-area}"
-  (let ((text-area (make-gdk-rectangle)))
-    (%gtk-entry-get-text-area entry text-area)
-    text-area))
+  (%gtk-entry-get-text-area entry text-area)
+  text-area)
 
 (export 'gtk-entry-get-text-area)
 
@@ -2966,7 +2965,7 @@
   (icon-pos gtk-entry-icon-position)
   (icon-area (g-boxed-foreign gdk-rectangle)))
 
-(defun gtk-entry-get-icon-area (entry icon-pos)
+(defun gtk-entry-get-icon-area (entry icon-pos &optional (icon-area (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2014-11-9}
   @argument[entry]{a @class{gtk-entry} widget}
@@ -2986,9 +2985,8 @@
   Since 3.0
   @see-class{gtk-entry}
   @see-function{gtk-entry-get-text-area}"
-  (let ((icon-area (make-gdk-rectangle)))
-    (%gtk-entry-get-icon-area entry icon-pos icon-area)
-    icon-area))
+  (%gtk-entry-get-icon-area entry icon-pos icon-area)
+  icon-area)
 
 (export 'gtk-entry-get-icon-area)
 

@@ -219,7 +219,7 @@
   (rgba (g-boxed-foreign gdk-rgba))
   (spec :string))
 
-(defun gdk-rgba-parse (spec)
+(defun gdk-rgba-parse (spec &optional (rgba (make-gdk-rgba)))
  #+cl-cffi-gtk-documentation
  "@version{2013-8-17}
   @argument[spec]{the string specifying the color}
@@ -247,9 +247,8 @@
   Since 3.0
   @see-class{gdk-rgba}
   @see-function{gdk-rgba-to-string}"
-  (let ((rgba (make-gdk-rgba)))
-    (when (%gdk-rgba-parse rgba spec)
-      rgba)))
+  (when (%gdk-rgba-parse rgba spec)
+    rgba))
 
 (export 'gdk-rgba-parse)
 

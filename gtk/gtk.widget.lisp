@@ -3700,7 +3700,7 @@
   @see-class{gtk-widget}
   @see-function{g-object-new}"
   (let ((lisp-type (gethash widget-type gobject::*registered-object-types*)))
-    (apply 'make-instance (cons lisp-type args))))
+    (apply 'make-instance lisp-type args)))
 
 (export 'gtk-widget-new)
 
@@ -4581,7 +4581,7 @@
   (area (g-boxed-foreign gdk-rectangle))
   (intersection (g-boxed-foreign gdk-rectangle)))
 
-(defun gtk-widget-intersect (widget area)
+(defun gtk-widget-intersect (widget area &optional (intersection (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2013-11-18}
   @argument[widget]{a @class{gtk-widget} object}
@@ -4593,9 +4593,9 @@
   there was an intersection.
   @see-class{gtk-widget}
   @see-class{gdk-rectangle}"
-  (let ((intersection (make-gdk-rectangle)))
-    (when (%gtk-widget-intersect widget area intersection)
-      intersection)))
+  (if (%gtk-widget-intersect widget area intersection)
+      (values intersection T)
+      (values NIL NIL)))
 
 (export 'gtk-widget-intersect)
 
@@ -7642,7 +7642,7 @@
   (widget (g-object gtk-widget))
   (allocation (g-boxed-foreign gdk-rectangle)))
 
-(defun gtk-widget-get-allocation (widget)
+(defun gtk-widget-get-allocation (widget &optional (allocation (make-gdk-rectangle)))
  #+cl-cffi-gtk-documentation
  "@version{2013-10-29}
   @argument[widget]{a @class{gtk-widget} object}
@@ -7676,9 +7676,8 @@
   @see-class{gtk-container}
   @see-class{gdk-rectangle}
   @see-function{gtk-widget-size-allocate}"
-  (let ((allocation (make-gdk-rectangle)))
-    (%gtk-widget-get-allocation widget allocation)
-    allocation))
+  (%gtk-widget-get-allocation widget allocation)
+  allocation)
 
 (export 'gtk-widget-get-allocation)
 
@@ -8847,7 +8846,8 @@
   (minium-size (g-boxed-foreign gtk-requisition))
   (natural-size (g-boxed-foreign gtk-requisition)))
 
-(defun gtk-widget-get-preferred-size (widget)
+(defun gtk-widget-get-preferred-size (widget &optional (minimum-size (make-gtk-requisition))
+                                                       (natural-size (make-gtk-requisition)))
  #+cl-cffi-gtk-documentation
  "@version{2013-10-29}
   @argument[widget]{a @class{gtk-widget} object}
@@ -8874,11 +8874,8 @@
   Since 3.0
   @see-class{gtk-widget}
   @see-class{gtk-requisition}"
- (let ((minimum-size (make-gtk-requisition))
-       (natural-size (make-gtk-requisition)))
-    (%gtk-widget-get-preferred-size widget minimum-size natural-size)
-    (values minimum-size
-            natural-size)))
+  (%gtk-widget-get-preferred-size widget minimum-size natural-size)
+  (values minimum-size natural-size))
 
 (export 'gtk-widget-get-preferred-size)
 
