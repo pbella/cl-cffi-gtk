@@ -831,7 +831,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gtk_get_current_event" gtk-get-current-event)
-    (g-boxed-foreign gdk-event :return)
+    (g-boxed-foreign gdk-event :return T)
  #+cl-cffi-gtk-documentation
  "@version{2013-3-11}
   @return{A copy of the current event, or @code{nil} if there is no current

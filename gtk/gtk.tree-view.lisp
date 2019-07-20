@@ -1790,7 +1790,7 @@
   currently has focus, then @arg{focus-column} will be @code{nil}."
   (with-foreign-objects ((path :pointer) (focus-column :pointer))
     (%gtk-tree-view-get-cursor tree-view path focus-column)
-    (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return))
+    (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return T))
             (mem-ref focus-column 'g-object))))
 
 (export 'gtk-tree-view-get-cursor)
@@ -2066,7 +2066,7 @@
                                           path
                                           column
                                           cell-x cell-y)
-      (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return))
+      (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return T))
               (mem-ref column 'g-object)
               (mem-ref cell-x :int)
               (mem-ref cell-y :int)))))
@@ -2133,7 +2133,7 @@
                                           path
                                           column
                                           cell-x cell-y)
-      (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return))
+      (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return T))
               (mem-ref column 'g-object)
               (mem-ref cell-x :int)
               (mem-ref cell-y :int)))))
@@ -2263,8 +2263,8 @@
   Since 2.8"
   (with-foreign-objects ((start-path :pointer) (end-path :pointer))
     (when (%gtk-tree-view-get-visible-range tree-view start-path end-path)
-      (values (mem-ref start-path '(g-boxed-foreign gtk-tree-path :return))
-              (mem-ref end-path '(g-boxed-foreign gtk-tree-path :return))))))
+      (values (mem-ref start-path '(g-boxed-foreign gtk-tree-path :return T))
+              (mem-ref end-path '(g-boxed-foreign gtk-tree-path :return T))))))
 
 (export 'gtk-tree-view-get-visible-range)
 
@@ -2634,7 +2634,7 @@
   @see-function{gtk-tree-view-set-drag-dest-row}"
   (with-foreign-objects ((path :pointer) (pos :pointer))
     (%gtk-tree-view-get-drag-dest-row tree-view path pos)
-    (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return))
+    (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return T))
             (mem-ref pos 'gtk-tree-view-drop-position))))
 
 (export 'gtk-tree-view-get-drag-dest-row)
@@ -2667,7 +2667,7 @@
   @code{nil} if @arg{tree-view} is not realized or does not have a model."
   (with-foreign-objects ((path :pointer) (pos :int))
     (when (%gtk-tree-view-get-dest-row-at-pos tree-view x y path pos)
-      (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return))
+      (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return T))
               (mem-ref pos 'gtk-tree-view-drop-position)))))
 
 (export 'gtk-tree-view-get-dest-row-at-pos)
@@ -3448,7 +3448,7 @@
               (mem-ref px :int)
               (mem-ref py :int)
               (mem-ref model 'g-object)
-              (mem-ref path '(g-boxed-foreign gtk-tree-path :return))
+              (mem-ref path '(g-boxed-foreign gtk-tree-path :return T))
               iter))))
 
 (export 'gtk-tree-view-get-tooltip-context)

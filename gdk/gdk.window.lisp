@@ -1397,7 +1397,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gdk_window_new" gdk-window-new)
-    (g-object gdk-window :already-referenced)
+    (g-object gdk-window :already-referenced T)
  #+cl-cffi-gtk-documentation
  "@version{2013-8-23}
   @argument[parent]{a @class{gdk-window}, or @code{nil} to create the window as

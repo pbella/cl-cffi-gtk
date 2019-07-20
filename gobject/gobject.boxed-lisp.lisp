@@ -132,13 +132,20 @@
              :initform nil))
   (:actual-type :pointer))
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defvar *g-boxed-foreign-type-cache* (make-hash-table :test 'eq))
+  (defvar *g-boxed-foreign-return-type-cache* (make-hash-table :test 'eq)))
+
 (defgeneric make-foreign-type (info &key return-p))
 
-(define-parse-method g-boxed-foreign (name &rest options)
-  (let ((info (get-g-boxed-foreign-info name)))
-    (assert info nil "Unknown foreign GBoxed type ~A" name)
-    (make-foreign-type info
-                       :return-p (member :return options))))
+(define-parse-method g-boxed-foreign (name &key return)
+  (let ((cache (if return *g-boxed-foreign-return-type-cache* *g-boxed-foreign-type-cache*)))
+    (let ((existing (gethash name cache)))
+      (or existing
+          (setf (gethash name cache)
+                (let ((info (get-g-boxed-foreign-info name)))
+                  (assert info nil "Unknown foreign GBoxed type ~A" name)
+                  (make-foreign-type info :return-p return)))))))
 
 (export 'g-boxed-foreign)
 
@@ -779,7 +786,6 @@
 
 (defmethod parse-g-value-for-type (gvalue-ptr
                                    (type-numeric (eql (gtype "GBoxed"))))
-  (declare (ignore parse-kind))
   (if (g-type= (g-value-type gvalue-ptr) (g-type-strv))
       (convert-from-foreign (g-value-get-boxed gvalue-ptr)
                             '(g-strv :free-from-foreign nil))

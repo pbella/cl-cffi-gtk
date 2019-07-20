@@ -164,7 +164,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gdk_pango_context_get" gdk-pango-context-get)
-    (g-object pango-context :already-referenced)
+    (g-object pango-context :already-referenced T)
  #+cl-cffi-gtk-documentation
  "@version{2013-12-7}
   @return{A new @class{pango-context} for the default display.}
@@ -194,7 +194,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gdk_pango_context_get_for_screen" gdk-pango-context-get-for-screen)
-    (g-object pango-context :already-referenced)
+    (g-object pango-context :already-referenced T)
  #+cl-cffi-gtk-documentation
  "@version{2013-12-7}
   @argument[screen]{the @class{gdk-screen} for which the context is to be

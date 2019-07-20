@@ -539,13 +539,17 @@
                        :initform nil))
   (:actual-type :pointer))
 
-(define-parse-method g-object (&rest args)
-  (let* ((sub-type (first (remove-if #'keywordp args)))
-         (flags (remove-if-not #'keywordp args))
-         (already-referenced (not (null (find :already-referenced flags)))))
-    (make-instance 'foreign-g-object-type
-                   :sub-type sub-type
-                   :already-referenced already-referenced)))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defvar *g-object-type-cache* (make-hash-table :test 'eq))
+  (defvar *g-object-already-referenced-type-cache* (make-hash-table :test 'eq)))
+
+(define-parse-method g-object (&optional sub-type &key already-referenced)
+  (let* ((cache (if already-referenced *g-object-already-referenced-type-cache* *g-object-type-cache*))
+         (existing (gethash sub-type cache)))
+    (or existing (setf (gethash sub-type cache)
+                       (make-instance 'foreign-g-object-type
+                                      :sub-type sub-type
+                                      :already-referenced already-referenced)))))
 
 (defmethod translate-to-foreign (object (type foreign-g-object-type))
   (cond

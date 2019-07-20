@@ -328,7 +328,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gtk_icon_factory_lookup" gtk-icon-factory-lookup)
-    (g-boxed-foreign gtk-icon-set :return)
+    (g-boxed-foreign gtk-icon-set :return T)
  #+cl-cffi-gtk-documentation
  "@version{2013-5-6}
   @argument[factory]{a @class{gtk-icon-factory} object}
@@ -351,7 +351,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gtk_icon_factory_lookup_default" gtk-icon-factory-lookup-default)
-    (g-boxed-foreign gtk-icon-set :return)
+    (g-boxed-foreign gtk-icon-set :return T)
  #+cl-cffi-gtk-documentation
  "@version{2013-5-6}
   @argument[stock-id]{an icon name}

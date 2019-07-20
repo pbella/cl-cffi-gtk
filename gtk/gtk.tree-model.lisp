@@ -616,7 +616,7 @@
              (tree-model g-object)
              (iter (g-boxed-foreign gtk-tree-iter))
              (path (g-boxed-foreign gtk-tree-path))))
-  (get-path ((g-boxed-foreign gtk-tree-path :return)
+  (get-path ((g-boxed-foreign gtk-tree-path :return T)
              (tree-model g-object)
              (iter (g-boxed-foreign gtk-tree-iter))))
   (get-value (:void
@@ -1078,7 +1078,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gtk_tree_row_reference_new" gtk-tree-row-reference-new)
-    (g-boxed-foreign gtk-tree-row-reference :return)
+    (g-boxed-foreign gtk-tree-row-reference :return T)
  #+cl-cffi-gtk-documentation
  "@version{2013-10-15}
   @argument[model]{a @class{gtk-tree-model} object}
@@ -1170,7 +1170,7 @@
 (define-boxed-opaque-accessor gtk-tree-row-reference
                               %gtk-tree-row-reference-get-path
   :reader "gtk_tree_row_reference_get_path"
-  :type (g-boxed-foreign gtk-tree-path :return))
+  :type (g-boxed-foreign gtk-tree-path :return T))
 
 (declaim (inline gtk-tree-row-reference-get-path))
 
@@ -1470,7 +1470,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gtk_tree_model_get_path" gtk-tree-model-get-path)
-     (g-boxed-foreign gtk-tree-path :return)
+     (g-boxed-foreign gtk-tree-path :return T)
  #+cl-cffi-gtk-documentation
  "@version{2013-10-15}
   @argument[tree-model]{a @class{gtk-tree-model} object}

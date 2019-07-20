@@ -498,7 +498,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gdk_display_get_event" gdk-display-get-event)
-    (g-boxed-foreign gdk-event :return)
+    (g-boxed-foreign gdk-event :return T)
  #+cl-cffi-gtk-documentation
  "@version{2013-8-21}
   @argument[display]{a @class{gdk-display} object}
@@ -523,7 +523,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gdk_display_peek_event" gdk-display-peek-event)
-         (g-boxed-foreign gdk-event :return)
+         (g-boxed-foreign gdk-event :return T)
  #+cl-cffi-gtk-documentation
  "@version{2013-8-21}
   @argument[display]{a @class{gdk-display} object}

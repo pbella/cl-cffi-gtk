@@ -823,8 +823,21 @@
      change.
      @see-function{g-type-name}
      @see-function{g-type-from-name}")
-  (:actual-type %g-type)
-  (:simple-parser g-type))
+  (:actual-type %g-type))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defvar +null-g-type+ (make-instance 'g-type))
+  (defvar +mangled-g-type+ (make-instance 'g-type :mangled-p T)))
+
+(define-parse-method g-type (&rest args &key mangled-p &allow-other-keys)
+  (block NIL
+    (when args
+      (let ((filtered (copy-list args)))
+        (remf filtered :mangled-p)
+        (when filtered
+          (warn "slow path for ~A parse method with additional arguments ~A" 'g-type filtered)
+          (return (apply #'make-instance 'g-type args)))))
+    (if mangled-p +mangled-g-type+ +null-g-type+)))
 
 (defun g-type-unmangle (type)
   (logxor type (ldb (byte 1 0) type)))

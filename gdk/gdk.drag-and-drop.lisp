@@ -322,7 +322,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gdk_drag_begin" gdk-drag-begin)
-    (g-object gdk-drag-context :already-referenced)
+    (g-object gdk-drag-context :already-referenced T)
  #+cl-cffi-gtk-documentation
  "@version{2013-6-30}
   @argument[window]{the source window for this drag}
@@ -347,7 +347,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gdk_drag_begin_for_device" gdk-drag-begin-for-device)
-    (g-object gdk-drag-context :already-referenced)
+    (g-object gdk-drag-context :already-referenced T)
  #+cl-cffi-gtk-documentation
  "@version{2013-4-12}
   @argument[window]{the source window for this drag}

@@ -98,10 +98,17 @@
   (:actual-type :pointer)
   (:documentation ""))
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defvar *fixed-array-cache* (make-hash-table :test 'equal)))
+
 (define-parse-method fixed-array (element-type array-size)
-  (make-instance 'fixed-array
-                 :element-type element-type
-                 :array-size array-size))
+  (let* ((key (cons element-type array-size))
+         (existing (gethash key *fixed-array-cache*)))
+    (or existing
+        (setf (gethash key *fixed-array-cache*)
+              (make-instance 'fixed-array
+                             :element-type element-type
+                             :array-size array-size)))))
 
 (defmethod translate-from-foreign (ptr (type fixed-array))
   (when (not (null-pointer-p ptr))

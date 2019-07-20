@@ -936,7 +936,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gtk_icon_view_get_path_at_pos" gtk-icon-view-get-path-at-pos)
-    (g-boxed-foreign gtk-tree-path :return)
+    (g-boxed-foreign gtk-tree-path :return T)
  #+cl-cffi-gtk-documentation
  "@version{2013-6-19}
   @argument[icon-view]{a @class{gtk-icon-view} widget}
@@ -1004,7 +1004,7 @@
   @see-function{gtk-icon-view-convert-widget-to-bin-window-coords}"
   (with-foreign-objects ((path :pointer) (cell :pointer))
     (when (%gtk-icon-view-get-item-at-pos icon-view x y path cell)
-      (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return))
+      (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return T))
               (mem-ref cell 'g-object)))))
 
 (export 'gtk-icon-view-get-item-at-pos)
@@ -1108,7 +1108,7 @@
   Since 2.8"
   (with-foreign-objects ((path :pointer) (cell :pointer))
     (when (%gtk-icon-view-get-cursor icon-view path cell)
-      (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return))
+      (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return T))
               (mem-ref cell 'g-object)))))
 
 (export 'gtk-icon-view-get-cursor)
@@ -1825,8 +1825,8 @@
   Since 2.8"
   (with-foreign-objects ((start-path :pointer) (end-path :pointer))
     (when (%gtk-icon-view-get-visible-range icon-view start-path end-path)
-      (values (mem-ref start-path '(g-boxed-foreign gtk-tree-path :return))
-              (mem-ref end-path '(g-boxed-foreign gtk-tree-path :return))))))
+      (values (mem-ref start-path '(g-boxed-foreign gtk-tree-path :return T))
+              (mem-ref end-path '(g-boxed-foreign gtk-tree-path :return T))))))
 
 (export 'gtk-icon-view-get-visible-range)
 
@@ -1947,7 +1947,7 @@
                 (convert-from-foreign (mem-ref model-ptr :pointer)
                                       '(g-object gtk-tree-model))
                 (convert-from-foreign (mem-ref path-ptr :pointer)
-                                      '(g-boxed-foreign gtk-tree-path :return))
+                                      '(g-boxed-foreign gtk-tree-path :return T))
                 iter)))))
 
 (export 'gtk-icon-view-get-tooltip-context)
@@ -2328,7 +2328,7 @@
   @see-function{gtk-icon-view-set-drag-dest-item}"
   (with-foreign-objects ((path :pointer) (pos :pointer))
     (%gtk-icon-view-get-drag-dest-item icon-view path pos)
-    (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return))
+    (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return T))
             (mem-ref pos 'gtk-icon-view-drop-position))))
 
 (export 'gtk-icon-view-get-drag-dest-item)
@@ -2365,7 +2365,7 @@
   @see-symbol{gtk-icon-view-drop-position}"
   (with-foreign-objects ((path :pointer) (pos :pointer))
     (when (%gtk-icon-view-get-dest-item-at-pos icon-view drag-x drag-y path pos)
-      (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return))
+      (values (mem-ref path '(g-boxed-foreign gtk-tree-path :return T))
               (mem-ref pos 'gtk-icon-view-drop-position)))))
 
 (export 'gtk-icon-view-get-dest-item-at-pos)

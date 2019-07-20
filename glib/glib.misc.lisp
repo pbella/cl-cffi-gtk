@@ -355,10 +355,20 @@
                     :initform t))
   (:actual-type :pointer))
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defvar +g-string-type+ (make-instance 'g-string-type :fff nil :ftf nil))
+  (defvar +g-string-fff-type+ (make-instance 'g-string-type :fff t :ftf nil))
+  (defvar +g-string-ftf-type+ (make-instance 'g-string-type :fff nil :ftf t))
+  (defvar +g-string-fff-ftf-type+ (make-instance 'g-string-type :fff t :ftf t)))
+
 (define-parse-method g-string (&key (free-from-foreign nil) (free-to-foreign t))
-  (make-instance 'g-string-type
-                 :fff free-from-foreign
-                 :ftf free-to-foreign))
+  (if free-from-foreign
+      (if free-to-foreign
+          +g-string-fff-ftf-type+
+          +g-string-fff-type+)
+      (if free-to-foreign
+          +g-string-ftf-type+
+          +g-string-type+)))
 
 (defmethod translate-to-foreign (value (type g-string-type))
   (%g-strdup value))
@@ -407,10 +417,20 @@
                     :reader g-strv-type-ftf))
   (:actual-type :pointer))
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defvar +g-strv-type+ (make-instance 'g-strv-type :free-from-foreign nil :free-to-foreign nil))
+  (defvar +g-strv-fff-type+ (make-instance 'g-strv-type :free-from-foreign t :free-to-foreign nil))
+  (defvar +g-strv-ftf-type+ (make-instance 'g-strv-type :free-from-foreign nil :free-to-foreign t))
+  (defvar +g-strv-fff-ftf-type+ (make-instance 'g-strv-type :free-from-foreign t :free-to-foreign t)))
+
 (define-parse-method g-strv (&key (free-from-foreign t) (free-to-foreign t))
-  (make-instance 'g-strv-type
-                 :free-from-foreign free-from-foreign
-                 :free-to-foreign free-to-foreign))
+  (if free-from-foreign
+      (if free-to-foreign
+          +g-strv-fff-ftf-type+
+          +g-strv-fff-type+)
+      (if free-to-foreign
+          +g-strv-ftf-type+
+          +g-strv-type+)))
 
 (defmethod translate-from-foreign (value (type g-strv-type))
   (unless (null-pointer-p value)
@@ -491,12 +511,20 @@
                     :initform t))
   (:actual-type :pointer))
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defvar *g-list-type-cache* (make-hash-table :test 'equal)))
+
 (define-parse-method g-list (type &key (free-from-foreign t)
                                        (free-to-foreign t))
-  (make-instance 'g-list-type
-                 :type type
-                 :free-from-foreign free-from-foreign
-                 :free-to-foreign free-to-foreign))
+  (let* ((key (cons type (if free-from-foreign
+                             (if free-to-foreign 'fff-ftf 'fff)
+                             (if free-to-foreign 'ftf NIL))))
+         (existing (gethash key *g-list-type-cache*)))
+    (or existing (setf (gethash key *g-list-type-cache*)
+                       (make-instance 'g-list-type
+                                      :type type
+                                      :free-from-foreign free-from-foreign
+                                      :free-to-foreign free-to-foreign)))))
 
 (defmethod translate-from-foreign (pointer (type g-list-type))
   (prog1
@@ -627,12 +655,20 @@
                     :initform t))
   (:actual-type :pointer))
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defvar *g-slist-type-cache* (make-hash-table :test 'equal)))
+
 (define-parse-method g-slist (type &key (free-from-foreign t)
-                                        (free-to-foreign t))
-  (make-instance 'g-slist-type
-                 :type type
-                 :free-from-foreign free-from-foreign
-                 :free-to-foreign free-to-foreign))
+                                       (free-to-foreign t))
+  (let* ((key (cons type (if free-from-foreign
+                             (if free-to-foreign 'fff-ftf 'fff)
+                             (if free-to-foreign 'ftf NIL))))
+         (existing (gethash key *g-slist-type-cache*)))
+    (or existing (setf (gethash key *g-slist-type-cache*)
+                       (make-instance 'g-slist-type
+                                      :type type
+                                      :free-from-foreign free-from-foreign
+                                      :free-to-foreign free-to-foreign)))))
 
 (defmethod translate-from-foreign (pointer (type g-slist-type))
   (prog1
@@ -867,11 +903,17 @@
    (test :reader g-hash-table-type-test :initarg :test :initform 'eql))
   (:actual-type :pointer))
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defvar *g-hash-table-type-cache* (make-hash-table :test 'equal)))
+
 (define-parse-method g-hash-table (key-type value-type &key (test 'eql))
-  (make-instance 'g-hash-table-type
-                 :key-type key-type
-                 :value-type value-type
-                 :test test))
+  (let* ((key (list key-type value-type (if (eq test 'eql) NIL test)))
+         (existing (gethash key *g-hash-table-type-cache*)))
+    (or existing (setf (gethash key *g-hash-table-type-cache*)
+                       (make-instance 'g-hash-table-type
+                                      :key-type key-type
+                                      :value-type value-type
+                                      :test test)))))
 
 (defcfun ("g_hash_table_new_full" %g-hash-table-new-full) (:pointer (:struct %g-hash-table))
   (hash-func :pointer)

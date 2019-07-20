@@ -230,7 +230,7 @@
 ;;; gdk_event_peek ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("gdk_event_peek" gdk-event-peek) (g-boxed-foreign gdk-event :return)
+(defcfun ("gdk_event_peek" gdk-event-peek) (g-boxed-foreign gdk-event :return T)
  #+cl-cffi-gtk-documentation
  "@version{2013-9-21}
   @begin{return}
@@ -252,7 +252,7 @@
 ;;; gdk_event_get ()
 ;;; ----------------------------------------------------------------------------
 
-(defcfun ("gdk_event_get" gdk-event-get) (g-boxed-foreign gdk-event :return)
+(defcfun ("gdk_event_get" gdk-event-get) (g-boxed-foreign gdk-event :return T)
  #+cl-cffi-gtk-documentation
  "@version{2013-9-21}
   @begin{return}

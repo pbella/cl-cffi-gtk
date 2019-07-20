@@ -63,7 +63,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gdk_pixbuf_new_from_file" %gdk-pixbuf-new-from-file)
-    (g-object gdk-pixbuf :already-referenced)
+    (g-object gdk-pixbuf :already-referenced T)
   (filename :string)
   (error :pointer))
 

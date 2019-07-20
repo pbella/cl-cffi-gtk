@@ -5971,7 +5971,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gtk_widget_create_pango_context" gtk-widget-create-pango-context)
-    (g-object pango-context :already-referenced)
+    (g-object pango-context :already-referenced T)
  #+cl-cffi-gtk-documentation
  "@version{2013-11-28}
   @argument[widget]{a @class{gtk-widget} object}
@@ -6025,7 +6025,7 @@
 ;;; ----------------------------------------------------------------------------
 
 (defcfun ("gtk_widget_create_pango_layout" gtk-widget-create-pango-layout)
-    (g-object pango-layout :already-referenced)
+    (g-object pango-layout :already-referenced T)
  #+cl-cffi-gtk-documentation
  "@version{2013-11-28}
   @argument[widget]{a @class{gtk-widget} object}

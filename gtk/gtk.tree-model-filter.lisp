@@ -491,7 +491,7 @@
 
 (defcfun ("gtk_tree_model_filter_convert_child_path_to_path"
            gtk-tree-model-filter-convert-child-path-to-path)
-    (g-boxed-foreign gtk-tree-path :return)
+    (g-boxed-foreign gtk-tree-path :return T)
  #+cl-cffi-gtk-documentation
  "@version{2013-6-21}
   @argument[filter]{a @class{gtk-tree-model-filter} object}
@@ -517,7 +517,7 @@
 
 (defcfun ("gtk_tree_model_filter_convert_path_to_child_path"
           gtk-tree-model-filter-convert-path-to-child-path)
-    (g-boxed-foreign gtk-tree-path :return)
+    (g-boxed-foreign gtk-tree-path :return T)
  #+cl-cffi-gtk-documentation
  "@version{2013-6-21}
   @argument[filter]{a @class{gtk-tree-model-filter} object}
