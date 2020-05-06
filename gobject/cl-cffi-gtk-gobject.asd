@@ -45,6 +45,7 @@
                (:file "gobject.boxed")       ; Boxed Types
                (:file "../glib/glib.variant-type")   ; GVariant type system
                (:file "../glib/glib.variant")        ; Strongly typed value datatype
+               (:file "gobject.error")       ; GError
                (:file "gobject.param-spec")  ; GParamSpec
                (:file "gobject.param")       ; Parameters and Values
                (:file "gobject.gobject-class")
