@@ -127,6 +127,7 @@
         ((cffi-features:cffi-feature-p :x86)    (defctype g-size :ulong))
         ((cffi-features:cffi-feature-p :ppc32)  (defctype g-size :uint32))
         ((cffi-features:cffi-feature-p :ppc64)  (defctype g-size :uint64))
+	((cffi-features:cffi-feature-p :arm64)	(defctype g-size :uint64))
         (t
          (error "Can not define 'g-size', unknown CPU architecture ~
                 (known are x86 and x86-64)"))))
